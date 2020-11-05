@@ -1,0 +1,20 @@
+WriteListener :: onWritePossible :: ENTERING ...
+WriteListener :: onWritePossible :: FIRST_TIME :: responseSize = 183884, WRITE_BUFFER_SIZE = 32768 --> NumIterations = 6
+
+WriteListener :: onWritePossible :: this.os.isReady() = true
+WriteListener :: onWritePossible :: this.numIterations = 5, this.startIdx = 32768, this.endIdx = 65536
+WriteListener :: onWritePossible :: LEAVING ... with this.numIterations = 5
+
+WriteListener :: onWritePossible :: ENTERING ...
+WriteListener :: onWritePossible :: this.numIterations = 4, this.startIdx = 65536, this.endIdx = 98304
+WriteListener :: onWritePossible :: this.numIterations = 3, this.startIdx = 98304, this.endIdx = 131072
+WriteListener :: onWritePossible :: this.numIterations = 2, this.startIdx = 131072, this.endIdx = 163840
+WriteListener :: onWritePossible :: LEAVING ... with this.numIterations = 2
+
+WriteListener :: onWritePossible :: ENTERING ...
+WriteListener :: onWritePossible :: this.numIterations = 1, this.startIdx = 163840, this.endIdx = 183884
+WriteListener :: onWritePossible :: this.numIterations = 0, this.startIdx = 183884, this.endIdx = 183884
+WriteListener :: onWritePossible :: END --> this.numIterations = 0
+
+
+So we are entering 3 times to the ‘onWritePossible’ method until the response is completely returned.

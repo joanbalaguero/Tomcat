@@ -1,0 +1,57 @@
+ @Override
+ public void onWritePossible() throws IOException
+ {
+   System.out.println("\nWriteListener :: onWritePossible :: ENTERING ...");
+  
+   // This is the first time 'onWritePossible' is called.
+   if (this.firstTime)
+   {
+    this.firstTime 	= false;
+    this.os 		= this.sr.getOutputStream();
+
+    this.responseSize	= this.response != null ? this.response.length : 0;
+    this.numIterations	= this.responseSize / WRITE_BUFFER_SIZE;
+    this.numIterations  += this.responseSize % WRITE_BUFFER_SIZE > 0 ? 1 : 0; 
+    this.startIdx	= 0;
+    this.endIdx		= Math.min(this.responseSize, WRITE_BUFFER_SIZE);
+     
+    System.out.println("WriteListener :: onWritePossible :: FIRST_TIME :: responseSize = " + this.responseSize + ", WRITE_BUFFER_SIZE = " + WRITE_BUFFER_SIZE + " --> NumIterations = " + this.numIterations + "\n");
+   }
+   
+   if (this.response != null)
+   {
+    while (this.numIterations > 0 && this.os.isReady())
+    {
+     this.os.write(this.response, this.startIdx, this.endIdx - this.startIdx);
+      
+     this.numIterations--;
+     this.startIdx	 = this.endIdx;
+     this.endIdx	+= WRITE_BUFFER_SIZE;
+     if (this.endIdx > this.responseSize) this.endIdx = this.responseSize;
+
+     System.out.println("WriteListener :: onWritePossible :: this.numIterations = " + this.numIterations + ", this.startIdx = " + this.startIdx + ", this.endIdx = " + this.endIdx);
+    }
+   }
+   
+   if (this.numIterations == 0) {
+	   System.out.println("WriteListener :: onWritePossible :: END --> this.numIterations = " + this.numIterations);
+	   this.ac.complete();
+   }
+   else {
+	   System.out.println("WriteListener :: onWritePossible :: LEAVING ... with this.numIterations = " + this.numIterations);
+   }
+ }
+
+ /**
+  * This method is called when an error is thrown in the 'onWritePossible' method.
+  * 
+  * @param 			Throwable		an uncontrolled exception
+  * @return 		none
+ */
+ @Override
+ public void onError(Throwable t) 
+ {
+  System.out.println("WriteListener :: onError :: t = " + t); 
+  t.printStackTrace();	 
+  this.ac.complete();
+ }

@@ -1,0 +1,8 @@
+WriteListener :: onWritePossible :: ENTERING ...
+WriteListener :: onWritePossible :: FIRST_TIME :: responseSize = 183884, WRITE_BUFFER_SIZE = 32768 --> NumIterations = 6
+
+WriteListener :: onWritePossible :: this.numIterations = 5, this.startIdx = 32768, this.endIdx = 65536
+WriteListener :: onWritePossible :: LEAVING ... with this.numIterations = 5
+
+
+'onWritePossible' called just once.
